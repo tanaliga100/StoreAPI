@@ -8,8 +8,8 @@ const getAllProductsStatic = async (req, res) => {
   });
 };
 const getAllProducts = async (req, res) => {
-  const { name, featured, company } = req.query;
-  const queryObject = { ...req.query };
+  const { name, featured, company, sort, fields } = req.query;
+  const queryObject = {};
   if (featured) {
     queryObject.featured = featured === "true" ? true : false;
   }
@@ -20,10 +20,22 @@ const getAllProducts = async (req, res) => {
     queryObject.name = { $regex: name, $options: "i" };
   }
   console.log("res", queryObject);
-  const products = await Products.find(queryObject);
+  let result = Products.find(queryObject);
+
+  console.log("results await", result);
+  // SORT
+  if (sort) {
+    const sortList = sort.split(",").join(" ");
+    result = result.sort(sortList);
+  } else {
+    result = result.sort("createdAt");
+  }
+  // FIELDS
+
+  const products = await result;
   res.status(200).json({
-    products,
     nbHits: products.length,
+    products,
   });
 };
 module.exports = {

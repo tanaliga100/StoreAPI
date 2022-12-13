@@ -23,7 +23,6 @@ app.use("/api/v1/products", productRouter);
 // BOTTOM-MIDDLEWARES
 app.use(errorHandlerMiddleware);
 app.use(notFoundMiddleware);
-
 // CONNECTION
 
 const start = async () => {
