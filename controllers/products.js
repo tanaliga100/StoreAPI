@@ -1,3 +1,4 @@
+import Grid from "@mui/material/Grid";
 const Products = require("../models/product");
 const getAllProductsStatic = async (req, res) => {
   const allProducts = await Products.find({})
